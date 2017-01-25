@@ -1,6 +1,6 @@
 ---
 title: 'Data Wrangling: January 25, 2017'
-author: "Melinda Higgins"
+author: "Abby Mutic"
 date: "January 25, 2017"
 output:
   html_document: default
@@ -16,7 +16,7 @@ In today's class we will cover the various data (or "object") structures in `R`.
 * scalar (which are really vectors of length 1)
 * vector
 * matrices (and "arrays")
-* data frame
+* data frame- the workhorse for r
 * list
 * factors
 
@@ -58,6 +58,7 @@ where:
 ## Let's create some data/objects
 
 ### Create 5 scalar values.
+**<- means "assign"** 
 
 ```{r}
 a <- 3
@@ -77,6 +78,8 @@ v2 <- c(3,1,5,4.5,6.234)
 ```
 
 Let's make a couple more vectors with 5 elements. Let's make one with characters/letters and another one with TRUE/FALSE (or T/F) logical values and a third with only whole numbers.
+**r is case-sensitive**
+**if new variable is in " " it will show up as a character variable**
 
 ```{r}
 v.char <- c("blue","green","red","yellow","blue")
@@ -119,14 +122,16 @@ typeof(v.char)
 typeof(v.log)
 typeof(v.int)
 ```
-
+** double means how it was stored in computer**
 ---
 
 **NOTE:** Notice that `v.int` is a numeric vector not an integer. We can force this to a true integer vector using `is.integer()` to test to see if `R` thinks is it is an integer vector. If not, then we can use `as.integer()` to force it.
 
 ```{r}
 is.integer(v.int)
+# if you want to check if there is 1/2 a person for ex
 v.int2 <- as.integer(v.int)
+# this will force it to be an integer
 is.integer(v.int2)
 ```
 
@@ -144,6 +149,7 @@ Here are some useful functions for checking your object types and for possibly c
 * and there are more - just look in help for the various `is.xxx()` functions.
 
 Most of these have associated `as.xx()` functions to help you move back and forth between object types ~ _sometimes_.
+# if you want to make it a character for ex
 
 * `as.character()`
 * `as.numeric()`
@@ -153,6 +159,17 @@ Most of these have associated `as.xx()` functions to help you move back and fort
 * `as.list()`
 * `as.factor()`
 * and there are more - just look in help for the various `as.xxx()` functions.
+
+```{r}
+# create character vector
+v3 <- c("1","2","3","<.2")
+class(v3)
+```
+# let's force this to be numeric
+```{r}
+
+```
+
 
 ### Make a `data.frame`
 
@@ -179,7 +196,7 @@ str(df)
 class(df)
 mode(df)
 typeof(df)
-attributes(df)
+attributes(df) #kinda like proc contents
 ```
 
 ### Attributes of a `data.frame`
@@ -237,9 +254,20 @@ The following dataset comes from the [UCI Data Repository](http://archive.ics.uc
 
 **NOTE:** Download the 2 files from the UCI Data Repository for the Contraceptive Method Choice and put them in the directory where you have this RMD `rmarkdown` file.
 
+# how to check your session info (which is imp if you need to post a question on the discussion board)
+```{r}
+sessionInfo()
+```
+
+
 ```{r}
 # load the tidyverse package(s)
 library(tidyverse)
+
+#suppose I wanted to read in a SPSS file
+#so I want to read_spss() function inside
+#the haven package. Load have by using library command
+library(haven)
 
 # read in the comma delimited (CSV) formatted dataset
 # **NOTE**: This dataset does NOT have the column
@@ -276,6 +304,7 @@ cmc$WifeEd.f <- factor(cmc$WifeEd,
                        levels = c(1,2,3,4),
                        labels = c("low","med low","med
 ```
+# this is helping you create a "codebook"
 
 and this would append a new column onto the `cmc` dataset that is the "factor" type version of Wife's Education. For now, use the code below to update all of the variables.
 
@@ -329,6 +358,7 @@ cmc$Contraceptive <- factor(cmc$Contraceptive,
 ```
 
 ### Look at a subset of the data
+#head pulls 1st 6 columns
 
 ```{r}
 head(cmc)
@@ -351,6 +381,7 @@ summary(cmc)
 ### Computing stats on factors
 
 Suppose you wanted to know the mean education level of the Huband's in this dataset. We can use the `as.numeric()` function to convert the variable and then run a `mean()` on it. We'll do more on facotrs later this semester.
+#force (or make) it to be a number then calculate the mean
 
 ```{r}
 mean(as.numeric(cmc$HusbEd))
